@@ -1,1 +1,23 @@
-/* Add styles here */
+body { font-family: 'Noto Sans KR', sans-serif; scroll-behavior: smooth; }
+.serif { font-family: 'Noto Serif KR', serif; }
+
+/* 거합도 수련 이미지 메인 배경 */
+.hero-iaido {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(10,10,10,1)), 
+                url('https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&q=80&w=2000');
+    background-size: cover;
+    background-position: center 30%;
+}
+
+/* 텍스트 세로 배치 디자인 */
+.vertical-brand {
+    writing-mode: vertical-rl;
+    letter-spacing: 0.8em;
+}
+
+/* 부드러운 노출 애니메이션 */
+.reveal { animation: revealUp 1.2s ease-out; }
+@keyframes revealUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
