@@ -43,7 +43,7 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 24px;
-  height: 72px;
+  height: 120px;
   display: flex;
   align-items: center;
   gap: 24px;
@@ -64,20 +64,20 @@ body {
 }
 
 .nav-logo-kr {
-  font-size: 20px;
+  font-size: 40px;
   font-weight: 700;
   letter-spacing: 0.05em;
   color: var(--text);
 }
 
 .nav-logo-phonetic {
-  font-size: 12px;
+  font-size: 24px;
   color: var(--text-muted);
   letter-spacing: 0.08em;
 }
 
 .nav-logo-sub {
-  font-size: 14px;
+  font-size: 28px;
   color: var(--text-muted);
   border-left: 1px solid var(--border);
   padding-left: 10px;
@@ -142,8 +142,8 @@ body {
 /* === HERO === */
 .hero {
   position: relative;
-  height: 90vh;
-  min-height: 520px;
+  height: 65vh;
+  min-height: 380px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -746,11 +746,16 @@ body.dark .about-card-icon {
 
 /* === MOBILE === */
 @media (max-width: 900px) {
+  .nav-logo-kr       { font-size: 24px; }
+  .nav-logo-phonetic { font-size: 14px; }
+  .nav-logo-sub      { font-size: 16px; }
+  .nav               { height: 80px; }
+
   .nav-links {
     display: none;
     flex-direction: column;
     position: absolute;
-    top: 64px;
+    top: 80px;
     left: 0;
     width: 100%;
     background: var(--nav-bg);
