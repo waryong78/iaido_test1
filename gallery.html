@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>수련 갤러리 — 무쌍직전영신류 한국지부</title>
+  <link href="style.css" rel="stylesheet">
+  <style>
+    .gallery-page-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 0 0;
+    }
+
+    .gallery-page-header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-bottom: 24px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover { color: var(--text); }
+
+    .gallery-page-title {
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .gallery-page-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .gallery-all {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .gallery-count {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 네비게이션 -->
+  <header class="header">
+    <nav class="nav">
+      <div class="nav-logo">
+        <div class="nav-logo-main">
+          <span class="nav-logo-kr">無雙直傳英信流</span>
+          <span class="nav-logo-phonetic">무쌍직전영신류</span>
+        </div>
+        <span class="nav-logo-sub" data-ko="한국지부" data-en="Korea Branch">한국지부</span>
+      </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#about"    data-ko="거합도란"   data-en="About Iaido">거합도란</a></li>
+        <li><a href="index.html#ryuha"    data-ko="유파 소개"  data-en="Our School">유파 소개</a></li>
+        <li><a href="gallery.html"        data-ko="갤러리"     data-en="Gallery">갤러리</a></li>
+        <li><a href="index.html#video"    data-ko="시연 영상"  data-en="Demo Video">시연 영상</a></li>
+        <li><a href="index.html#schedule" data-ko="수련 일정"  data-en="Schedule">수련 일정</a></li>
+        <li><a href="index.html#map"      data-ko="오시는 길"  data-en="Directions">오시는 길</a></li>
+        <li><a href="index.html#contact"  data-ko="문의"       data-en="Contact">문의</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button class="ctrl-btn" id="themeToggle" aria-label="테마 변경">🌙</button>
+        <button class="ctrl-btn lang-btn" id="langToggle" aria-label="언어 변경">EN</button>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기">&#9776;</button>
+    </nav>
+  </header>
+
+  <!-- 페이지 헤더 -->
+  <div class="gallery-page-header">
+    <div class="container">
+      <div>
+        <a href="index.html#gallery" class="back-link">&#8592; <span data-ko="메인으로 돌아가기" data-en="Back to Main">메인으로 돌아가기</span></a>
+        <h1 class="gallery-page-title" style="margin-top:10px;" data-ko="수련 갤러리" data-en="Training Gallery">수련 갤러리</h1>
+      </div>
+      <div class="gallery-page-controls">
+        <label class="gallery-upload-btn" title="사진 추가">
+          <input type="file" id="galleryFileInput" accept="image/*" multiple hidden>
+          <span data-ko="+ 사진 추가" data-en="+ Add Photos">+ 사진 추가</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 전체 갤러리 -->
+  <section class="section">
+    <div class="container">
+      <p class="gallery-count" id="galleryCount"></p>
+      <div class="gallery-all" id="galleryGrid"></div>
+    </div>
+  </section>
+
+  <!-- 라이트박스 -->
+  <div id="lightbox" class="lightbox">
+    <button class="lightbox-close" id="lightboxClose">×</button>
+    <img id="lightboxImg" src="" alt="사진">
+  </div>
+
+  <script>
+    // === THEME ===
+    const themeToggle = document.getElementById('themeToggle');
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      themeToggle.textContent = '☀️';
+    }
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      themeToggle.textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // === LANGUAGE ===
+    let lang = localStorage.getItem('lang') || 'ko';
+    const langToggle = document.getElementById('langToggle');
+    function applyLang(l) {
+      document.querySelectorAll('[data-ko]').forEach(el => {
+        el.textContent = el.getAttribute('data-' + l);
+      });
+      langToggle.textContent = l === 'ko' ? 'EN' : '한글';
+      document.documentElement.lang = l;
+    }
+    applyLang(lang);
+    langToggle.addEventListener('click', () => {
+      lang = lang === 'ko' ? 'en' : 'ko';
+      localStorage.setItem('lang', lang);
+      applyLang(lang);
+    });
+
+    // === MOBILE NAV ===
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+    // === GALLERY (IndexedDB) ===
+    const STATIC_IMAGES = ['Zanchin_01.jpeg', 'iaido_02.jpeg', 'Iaido_03.jpeg'];
+    const DB_NAME = 'iaido_gallery';
+    const DB_STORE = 'photos';
+    let db;
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, 1);
+        req.onupgradeneeded = e => e.target.result.createObjectStore(DB_STORE, { autoIncrement: true });
+        req.onsuccess = e => resolve(e.target.result);
+        req.onerror = e => reject(e);
+      });
+    }
+
+    function getAllPhotos() {
+      return new Promise(resolve => {
+        const results = [];
+        db.transaction(DB_STORE, 'readonly').objectStore(DB_STORE).openCursor().onsuccess = e => {
+          const cursor = e.target.result;
+          if (cursor) { results.push({ key: cursor.key, dataUrl: cursor.value }); cursor.continue(); }
+          else resolve(results);
+        };
+      });
+    }
+
+    function addPhoto(dataUrl) {
+      return new Promise(resolve => {
+        db.transaction(DB_STORE, 'readwrite').objectStore(DB_STORE).add(dataUrl).onsuccess = e => resolve(e.target.result);
+      });
+    }
+
+    function deletePhoto(key) {
+      return new Promise(resolve => {
+        db.transaction(DB_STORE, 'readwrite').objectStore(DB_STORE).delete(key).onsuccess = () => resolve();
+      });
+    }
+
+    function makeItem(src, key) {
+      const wrap = document.createElement('div');
+      wrap.className = 'gallery-item';
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = '수련 사진';
+      img.addEventListener('click', () => openLightbox(src));
+      wrap.appendChild(img);
+      if (key != null) {
+        const btn = document.createElement('button');
+        btn.className = 'gallery-delete';
+        btn.textContent = '×';
+        btn.title = '삭제';
+        btn.addEventListener('click', async e => {
+          e.stopPropagation();
+          await deletePhoto(key);
+          renderAll();
+        });
+        wrap.appendChild(btn);
+      }
+      return wrap;
+    }
+
+    async function renderAll() {
+      const grid = document.getElementById('galleryGrid');
+      const countEl = document.getElementById('galleryCount');
+      grid.innerHTML = '';
+      STATIC_IMAGES.forEach(src => grid.appendChild(makeItem(src, null)));
+      const photos = await getAllPhotos();
+      photos.forEach(({ key, dataUrl }) => grid.appendChild(makeItem(dataUrl, key)));
+      const total = STATIC_IMAGES.length + photos.length;
+      countEl.textContent = lang === 'ko' ? `총 ${total}장` : `${total} photos`;
+    }
+
+    openDB().then(database => { db = database; renderAll(); });
+
+    document.getElementById('galleryFileInput').addEventListener('change', async e => {
+      for (const file of Array.from(e.target.files)) {
+        const dataUrl = await new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onload = ev => resolve(ev.target.result);
+          reader.readAsDataURL(file);
+        });
+        await addPhoto(dataUrl);
+      }
+      e.target.value = '';
+      renderAll();
+    });
+
+    // === LIGHTBOX ===
+    function openLightbox(src) {
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightbox').classList.add('open');
+    }
+    document.getElementById('lightbox').addEventListener('click', e => {
+      if (e.target.id === 'lightbox' || e.target.id === 'lightboxClose') {
+        document.getElementById('lightbox').classList.remove('open');
+      }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') document.getElementById('lightbox').classList.remove('open');
+    });
+  </script>
+</body>
+</html>

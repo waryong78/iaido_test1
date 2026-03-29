@@ -440,6 +440,18 @@ body.dark .about-card-icon {
   opacity: 1;
 }
 
+/* 갤러리 제목 링크 */
+.gallery-title-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.gallery-title-link:hover {
+  border-bottom-color: var(--accent);
+}
+
 /* === GALLERY PAGINATION === */
 .gallery-wrapper {
   position: relative;
