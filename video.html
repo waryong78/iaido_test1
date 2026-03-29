@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>시연 영상 — 무쌍직전영신류 한국지부</title>
+  <link href="style.css" rel="stylesheet">
+  <style>
+    .video-page-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 0 0;
+    }
+
+    .video-page-header .container {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-bottom: 24px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--text); }
+
+    .video-page-title {
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 700;
+      margin: 10px 0 0;
+    }
+
+    .video-upload-btn {
+      display: inline-flex;
+      align-items: center;
+      background: var(--accent);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: opacity 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+    .video-upload-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    .video-count {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .video-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .video-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    }
+
+    .video-card video {
+      width: 100%;
+      display: block;
+      background: #000;
+      max-height: 220px;
+    }
+
+    .video-card-info {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .video-card-name {
+      font-size: 13px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+
+    .video-card-name.static {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .video-delete {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.2s, color 0.2s;
+    }
+    .video-delete:hover { background: #fee; color: #c00; border-color: #c00; }
+  </style>
+</head>
+<body>
+
+  <!-- 네비게이션 -->
+  <header class="header">
+    <nav class="nav">
+      <div class="nav-logo">
+        <div class="nav-logo-main">
+          <span class="nav-logo-kr">無雙直傳英信流</span>
+          <span class="nav-logo-phonetic">무쌍직전영신류</span>
+        </div>
+        <span class="nav-logo-sub" data-ko="한국지부" data-en="Korea Branch">한국지부</span>
+      </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#about"    data-ko="거합도란"  data-en="About Iaido">거합도란</a></li>
+        <li><a href="index.html#ryuha"    data-ko="유파 소개" data-en="Our School">유파 소개</a></li>
+        <li><a href="gallery.html"        data-ko="갤러리"    data-en="Gallery">갤러리</a></li>
+        <li><a href="video.html"          data-ko="시연 영상" data-en="Demo Video">시연 영상</a></li>
+        <li><a href="index.html#schedule" data-ko="수련 일정" data-en="Schedule">수련 일정</a></li>
+        <li><a href="index.html#map"      data-ko="오시는 길" data-en="Directions">오시는 길</a></li>
+        <li><a href="index.html#contact"  data-ko="문의"      data-en="Contact">문의</a></li>
+      </ul>
+      <div class="nav-controls">
+        <button class="ctrl-btn" id="themeToggle" aria-label="테마 변경">🌙</button>
+        <button class="ctrl-btn lang-btn" id="langToggle" aria-label="언어 변경">EN</button>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기">&#9776;</button>
+    </nav>
+  </header>
+
+  <!-- 페이지 헤더 -->
+  <div class="video-page-header">
+    <div class="container">
+      <div>
+        <a href="index.html#video" class="back-link">&#8592; <span data-ko="메인으로 돌아가기" data-en="Back to Main">메인으로 돌아가기</span></a>
+        <h1 class="video-page-title" data-ko="시연 영상" data-en="Demo Videos">시연 영상</h1>
+      </div>
+      <label class="video-upload-btn">
+        <input type="file" id="videoFileInput" accept="video/*" multiple hidden>
+        <span data-ko="+ 영상 추가" data-en="+ Add Videos">+ 영상 추가</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 영상 목록 -->
+  <section class="section">
+    <div class="container">
+      <p class="video-count" id="videoCount"></p>
+      <div class="video-grid" id="videoGrid"></div>
+    </div>
+  </section>
+
+  <script>
+    // === THEME ===
+    const themeToggle = document.getElementById('themeToggle');
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      themeToggle.textContent = '☀️';
+    }
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      themeToggle.textContent = isDark ? '☀️' : '🌙';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // === LANGUAGE ===
+    let lang = localStorage.getItem('lang') || 'ko';
+    const langToggle = document.getElementById('langToggle');
+    function applyLang(l) {
+      document.querySelectorAll('[data-ko]').forEach(el => {
+        el.textContent = el.getAttribute('data-' + l);
+      });
+      langToggle.textContent = l === 'ko' ? 'EN' : '한글';
+      document.documentElement.lang = l;
+    }
+    applyLang(lang);
+    langToggle.addEventListener('click', () => {
+      lang = lang === 'ko' ? 'en' : 'ko';
+      localStorage.setItem('lang', lang);
+      applyLang(lang);
+    });
+
+    // === MOBILE NAV ===
+    const navToggle = document.getElementById('navToggle');
+    const navLinks  = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+    // === VIDEO (IndexedDB) ===
+    const STATIC_VIDEOS = [{ src: 'movie01.mp4', name: 'movie01.mp4' }];
+    const DB_NAME  = 'iaido_videos';
+    const DB_STORE = 'videos';
+    let db;
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, 1);
+        req.onupgradeneeded = e => e.target.result.createObjectStore(DB_STORE, { autoIncrement: true });
+        req.onsuccess = e => resolve(e.target.result);
+        req.onerror   = e => reject(e);
+      });
+    }
+
+    function getAllVideos() {
+      return new Promise(resolve => {
+        const results = [];
+        db.transaction(DB_STORE, 'readonly').objectStore(DB_STORE).openCursor().onsuccess = e => {
+          const cursor = e.target.result;
+          if (cursor) { results.push({ key: cursor.key, ...cursor.value }); cursor.continue(); }
+          else resolve(results);
+        };
+      });
+    }
+
+    function addVideo(name, dataUrl) {
+      return new Promise(resolve => {
+        db.transaction(DB_STORE, 'readwrite').objectStore(DB_STORE).add({ name, dataUrl }).onsuccess = e => resolve(e.target.result);
+      });
+    }
+
+    function deleteVideo(key) {
+      return new Promise(resolve => {
+        db.transaction(DB_STORE, 'readwrite').objectStore(DB_STORE).delete(key).onsuccess = () => resolve();
+      });
+    }
+
+    function makeVideoCard(src, name, key) {
+      const card = document.createElement('div');
+      card.className = 'video-card';
+
+      const video = document.createElement('video');
+      video.controls = true;
+      video.preload = 'metadata';
+      const source = document.createElement('source');
+      source.src = src;
+      source.type = 'video/mp4';
+      video.appendChild(source);
+      card.appendChild(video);
+
+      const info = document.createElement('div');
+      info.className = 'video-card-info';
+
+      const nameEl = document.createElement('span');
+      nameEl.className = 'video-card-name' + (key == null ? ' static' : '');
+      nameEl.textContent = name;
+      info.appendChild(nameEl);
+
+      if (key != null) {
+        const del = document.createElement('button');
+        del.className = 'video-delete';
+        del.textContent = lang === 'ko' ? '삭제' : 'Delete';
+        del.addEventListener('click', async () => {
+          await deleteVideo(key);
+          renderAll();
+        });
+        info.appendChild(del);
+      }
+
+      card.appendChild(info);
+      return card;
+    }
+
+    async function renderAll() {
+      const grid = document.getElementById('videoGrid');
+      const countEl = document.getElementById('videoCount');
+      grid.innerHTML = '';
+
+      STATIC_VIDEOS.forEach(({ src, name }) => grid.appendChild(makeVideoCard(src, name, null)));
+
+      const uploaded = await getAllVideos();
+      uploaded.forEach(({ key, name, dataUrl }) => grid.appendChild(makeVideoCard(dataUrl, name, key)));
+
+      const total = STATIC_VIDEOS.length + uploaded.length;
+      countEl.textContent = lang === 'ko' ? `총 ${total}개` : `${total} videos`;
+    }
+
+    openDB().then(database => { db = database; renderAll(); });
+
+    document.getElementById('videoFileInput').addEventListener('change', async e => {
+      for (const file of Array.from(e.target.files)) {
+        const dataUrl = await new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onload = ev => resolve(ev.target.result);
+          reader.readAsDataURL(file);
+        });
+        await addVideo(file.name, dataUrl);
+      }
+      e.target.value = '';
+      renderAll();
+    });
+  </script>
+</body>
+</html>
