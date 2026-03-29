@@ -95,12 +95,7 @@
         <a href="index.html#gallery" class="back-link">&#8592; <span data-ko="메인으로 돌아가기" data-en="Back to Main">메인으로 돌아가기</span></a>
         <h1 class="gallery-page-title" style="margin-top:10px;" data-ko="수련 갤러리" data-en="Training Gallery">수련 갤러리</h1>
       </div>
-      <div class="gallery-page-controls">
-        <label class="gallery-upload-btn" title="사진 추가">
-          <input type="file" id="galleryFileInput" accept="image/*" multiple hidden>
-          <span data-ko="+ 사진 추가" data-en="+ Add Photos">+ 사진 추가</span>
-        </label>
-      </div>
+      <div class="gallery-page-controls"></div>
     </div>
   </div>
 
@@ -229,18 +224,6 @@
 
     openDB().then(database => { db = database; renderAll(); });
 
-    document.getElementById('galleryFileInput').addEventListener('change', async e => {
-      for (const file of Array.from(e.target.files)) {
-        const dataUrl = await new Promise(resolve => {
-          const reader = new FileReader();
-          reader.onload = ev => resolve(ev.target.result);
-          reader.readAsDataURL(file);
-        });
-        await addPhoto(dataUrl);
-      }
-      e.target.value = '';
-      renderAll();
-    });
 
     // === LIGHTBOX ===
     function openLightbox(src) {

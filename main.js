@@ -180,19 +180,6 @@ document.getElementById('galleryNext').addEventListener('click', () => {
   if (currentPage < totalPages() - 1) renderPage(currentPage + 1, 'next');
 });
 
-document.getElementById('galleryFileInput').addEventListener('change', async e => {
-  for (const file of Array.from(e.target.files)) {
-    const dataUrl = await new Promise(resolve => {
-      const reader = new FileReader();
-      reader.onload = ev => resolve(ev.target.result);
-      reader.readAsDataURL(file);
-    });
-    await addPhoto(dataUrl);
-  }
-  e.target.value = '';
-  await loadAllItems();
-  renderPage(currentPage);
-});
 
 // === LIGHTBOX ===
 function openLightbox(src) {
