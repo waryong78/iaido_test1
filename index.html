@@ -119,7 +119,12 @@
           <span data-ko="+ 사진 추가" data-en="+ Add Photos">+ 사진 추가</span>
         </label>
       </div>
-      <div class="gallery" id="galleryGrid"></div>
+      <div class="gallery-wrapper" id="galleryWrapper">
+        <button class="gallery-nav gallery-nav-prev" id="galleryPrev" aria-label="이전">&#8249;</button>
+        <div class="gallery" id="galleryGrid"></div>
+        <button class="gallery-nav gallery-nav-next" id="galleryNext" aria-label="다음">&#8250;</button>
+      </div>
+      <div class="gallery-dots" id="galleryDots"></div>
     </div>
   </section>
 

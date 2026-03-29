@@ -33,11 +33,14 @@ langToggle.addEventListener('click', () => {
   applyLang(lang);
 });
 
-// === GALLERY (IndexedDB) ===
+// === GALLERY (IndexedDB + Pagination) ===
 const STATIC_IMAGES = ['Zanchin_01.jpeg', 'iaido_02.jpeg', 'Iaido_03.jpeg'];
 const DB_NAME = 'iaido_gallery';
 const DB_STORE = 'photos';
+const PER_PAGE = 6;
 let db;
+let galleryAllItems = []; // { src, key|null }
+let currentPage = 0;
 
 function openDB() {
   return new Promise((resolve, reject) => {
@@ -71,7 +74,7 @@ function deletePhoto(key) {
   });
 }
 
-function makeGalleryItem(src, onDelete) {
+function makeGalleryItem(src, key) {
   const wrap = document.createElement('div');
   wrap.className = 'gallery-item';
   const img = document.createElement('img');
@@ -79,31 +82,103 @@ function makeGalleryItem(src, onDelete) {
   img.alt = '수련 사진';
   img.addEventListener('click', () => openLightbox(src));
   wrap.appendChild(img);
-  if (onDelete) {
+  if (key != null) {
     const btn = document.createElement('button');
     btn.className = 'gallery-delete';
     btn.textContent = '×';
     btn.title = '삭제';
-    btn.addEventListener('click', e => { e.stopPropagation(); onDelete(); });
+    btn.addEventListener('click', async e => {
+      e.stopPropagation();
+      await deletePhoto(key);
+      await loadAllItems();
+      currentPage = Math.min(currentPage, totalPages() - 1);
+      renderPage(currentPage);
+    });
     wrap.appendChild(btn);
   }
   return wrap;
 }
 
-async function renderGallery() {
-  const grid = document.getElementById('galleryGrid');
-  grid.innerHTML = '';
-  STATIC_IMAGES.forEach(src => grid.appendChild(makeGalleryItem(src, null)));
-  const photos = await getAllPhotos();
-  photos.forEach(({ key, dataUrl }) => {
-    grid.appendChild(makeGalleryItem(dataUrl, async () => {
-      await deletePhoto(key);
-      renderGallery();
-    }));
-  });
+function totalPages() {
+  return Math.max(1, Math.ceil(galleryAllItems.length / PER_PAGE));
 }
 
-openDB().then(database => { db = database; renderGallery(); });
+function renderPage(page, direction) {
+  const grid = document.getElementById('galleryGrid');
+  const outClass = direction === 'next' ? 'slide-out-left' : 'slide-out-right';
+  const inClass  = direction === 'next' ? 'slide-in-right' : 'slide-in-left';
+
+  function fillGrid() {
+    grid.innerHTML = '';
+    const start = page * PER_PAGE;
+    galleryAllItems.slice(start, start + PER_PAGE).forEach(({ src, key }) => {
+      grid.appendChild(makeGalleryItem(src, key));
+    });
+  }
+
+  if (direction) {
+    grid.classList.add(outClass);
+    grid.addEventListener('animationend', function handler() {
+      grid.classList.remove(outClass);
+      grid.removeEventListener('animationend', handler);
+      fillGrid();
+      grid.classList.add(inClass);
+      grid.addEventListener('animationend', function h2() {
+        grid.classList.remove(inClass);
+        grid.removeEventListener('animationend', h2);
+      });
+    });
+  } else {
+    fillGrid();
+  }
+
+  currentPage = page;
+  updateControls();
+}
+
+function updateControls() {
+  const pages = totalPages();
+  const prevBtn = document.getElementById('galleryPrev');
+  const nextBtn = document.getElementById('galleryNext');
+  const dotsEl  = document.getElementById('galleryDots');
+
+  prevBtn.disabled = currentPage === 0;
+  nextBtn.disabled = currentPage >= pages - 1;
+
+  dotsEl.innerHTML = '';
+  if (pages > 1) {
+    for (let i = 0; i < pages; i++) {
+      const dot = document.createElement('button');
+      dot.className = 'gallery-dot' + (i === currentPage ? ' active' : '');
+      dot.addEventListener('click', () => {
+        if (i !== currentPage) renderPage(i, i > currentPage ? 'next' : 'prev');
+      });
+      dotsEl.appendChild(dot);
+    }
+  }
+}
+
+async function loadAllItems() {
+  const uploaded = await getAllPhotos();
+  galleryAllItems = [
+    ...STATIC_IMAGES.map(src => ({ src, key: null })),
+    ...uploaded.map(({ key, dataUrl }) => ({ src: dataUrl, key }))
+  ];
+}
+
+async function initGallery() {
+  await loadAllItems();
+  renderPage(0);
+}
+
+openDB().then(database => { db = database; initGallery(); });
+
+document.getElementById('galleryPrev').addEventListener('click', () => {
+  if (currentPage > 0) renderPage(currentPage - 1, 'prev');
+});
+document.getElementById('galleryNext').addEventListener('click', () => {
+  if (currentPage < totalPages() - 1) renderPage(currentPage + 1, 'next');
+});
 
 document.getElementById('galleryFileInput').addEventListener('change', async e => {
   for (const file of Array.from(e.target.files)) {
@@ -115,7 +190,8 @@ document.getElementById('galleryFileInput').addEventListener('change', async e =
     await addPhoto(dataUrl);
   }
   e.target.value = '';
-  renderGallery();
+  await loadAllItems();
+  renderPage(currentPage);
 });
 
 // === LIGHTBOX ===
