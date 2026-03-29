@@ -112,14 +112,22 @@
   <section class="section" id="gallery">
     <div class="container">
       <div class="section-label">GALLERY</div>
-      <h2 class="section-title" data-ko="수련 갤러리" data-en="Training Gallery">수련 갤러리</h2>
-      <div class="gallery">
-        <img src="Zanchin_01.jpeg" alt="수련 사진 1">
-        <img src="iaido_02.jpeg" alt="수련 사진 2">
-        <img src="Iaido_03.jpeg" alt="수련 사진 3">
+      <div class="gallery-header">
+        <h2 class="section-title" data-ko="수련 갤러리" data-en="Training Gallery">수련 갤러리</h2>
+        <label class="gallery-upload-btn" title="사진 추가">
+          <input type="file" id="galleryFileInput" accept="image/*" multiple hidden>
+          <span data-ko="+ 사진 추가" data-en="+ Add Photos">+ 사진 추가</span>
+        </label>
       </div>
+      <div class="gallery" id="galleryGrid"></div>
     </div>
   </section>
+
+  <!-- 라이트박스 -->
+  <div id="lightbox" class="lightbox">
+    <button class="lightbox-close" id="lightboxClose">×</button>
+    <img id="lightboxImg" src="" alt="사진">
+  </div>
 
   <!-- 시연 영상 -->
   <section class="section section-dark" id="video">
