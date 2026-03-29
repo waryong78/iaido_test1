@@ -146,6 +146,36 @@
     }
 
     /* MAP */
+    .map-layout {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+    }
+
+    .map-info {
+      flex: 0 0 auto;
+    }
+
+    .map-image {
+      flex: 1;
+    }
+
+    .map-image img {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+    }
+
+    .dark .map-image img {
+      border-color: #444;
+    }
+
+    @media (max-width: 768px) {
+      .map-layout {
+        flex-direction: column;
+      }
+    }
+
     .map a {
       display: inline-block;
       margin-top: 10px;
@@ -236,12 +266,18 @@
 
 <section id="map" class="map">
   <h2 data-ko="오시는 길" data-en="Directions">오시는 길</h2>
-  <p data-ko="부산 북구 상리로18번길 12" data-en="12 Sangri-ro 18beon-gil, Buk-gu, Busan">부산 북구 상리로18번길 12</p>
-  <a href="https://map.kakao.com/link/search/%EB%B6%80%EC%82%B0%20%EB%B6%81%EA%B5%AC%20%EC%83%81%EB%A6%AC%EB%A1%9C18%EB%B2%88%EA%B8%B8%2012" target="_blank"
-     data-ko="카카오맵 열기" data-en="Open KakaoMap">카카오맵 열기</a>
-  <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EB%B6%81%EA%B5%AC%20%EC%83%81%EB%A6%AC%EB%A1%9C18%EB%B2%88%EA%B8%B8%2012" target="_blank"
-     data-ko="네이버지도 열기" data-en="Open NaverMap">네이버지도 열기</a>
-
+  <div class="map-layout">
+    <div class="map-info">
+      <p data-ko="부산 북구 상리로18번길 12" data-en="12 Sangri-ro 18beon-gil, Buk-gu, Busan">부산 북구 상리로18번길 12</p>
+      <a href="https://map.kakao.com/link/search/%EB%B6%80%EC%82%B0%20%EB%B6%81%EA%B5%AC%20%EC%83%81%EB%A6%AC%EB%A1%9C18%EB%B2%88%EA%B8%B8%2012" target="_blank"
+         data-ko="카카오맵 열기" data-en="Open KakaoMap">카카오맵 열기</a>
+      <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EB%B6%81%EA%B5%AC%20%EC%83%81%EB%A6%AC%EB%A1%9C18%EB%B2%88%EA%B8%B8%2012" target="_blank"
+         data-ko="네이버지도 열기" data-en="Open NaverMap">네이버지도 열기</a>
+    </div>
+    <div class="map-image">
+      <img src="screen01.png" alt="오시는 길 지도">
+    </div>
+  </div>
 </section>
 
 <footer>
