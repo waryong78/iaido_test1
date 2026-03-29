@@ -53,14 +53,14 @@
     }
 
     header .title h1 {
-      font-size: 3em; /* Larger font size */
+      font-size: 3em;
       margin-bottom: 10px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.7); /* Text shadow for readability */
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
     }
 
     header .title p {
-      font-size: 1.5em; /* Larger font size */
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.7); /* Text shadow for readability */
+      font-size: 1.5em;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
     }
 
     /* NAV */
@@ -90,13 +90,25 @@
       font-size: 22px;
     }
 
-    .dark-btn {
+    .nav-btns {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .dark-btn, .lang-btn {
       background: none;
       border: 1px solid white;
       color: white;
       padding: 6px 10px;
       border-radius: 6px;
       cursor: pointer;
+      font-size: 14px;
+    }
+
+    .lang-btn {
+      font-weight: bold;
+      letter-spacing: 0.5px;
     }
 
     /* SECTIONS */
@@ -134,6 +146,53 @@
     }
 
     /* MAP */
+    .code-copy-box {
+      margin-top: 20px;
+      background: #f4f4f4;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: left;
+    }
+
+    .dark .code-copy-box {
+      background: #2a2a2a;
+      border-color: #444;
+    }
+
+    .code-copy-box pre {
+      margin: 10px 0 0;
+      font-size: 13px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      color: #333;
+    }
+
+    .dark .code-copy-box pre {
+      color: #ccc;
+    }
+
+    .code-copy-btn {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .code-copy-btn:hover {
+      background: #0056cc;
+    }
+
+    .code-copy-msg {
+      margin-left: 10px;
+      color: #28a745;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
     .map a {
       display: inline-block;
       margin-top: 10px;
@@ -177,32 +236,36 @@
 
 <header>
   <div class="title">
-    <h1>○○ 거합도 수련관</h1>
-    <p>칼과 마음을 하나로</p>
+    <h1 data-ko="○○ 거합도 수련관" data-en="○○ Iaido Dojo">○○ 거합도 수련관</h1>
+    <p data-ko="칼과 마음을 하나로" data-en="Sword and Mind as One">칼과 마음을 하나로</p>
   </div>
 </header>
 
 <nav>
   <div class="hamburger" onclick="toggleMenu()">☰</div>
   <div class="menu" id="menu">
-    <a href="#about">거합도</a>
-    <a href="#gallery">갤러리</a>
-    <a href="#video">시연 영상</a>
-    <a href="#map">오시는 길</a>
+    <a href="#about" data-ko="거합도" data-en="Iaido">거합도</a>
+    <a href="#gallery" data-ko="갤러리" data-en="Gallery">갤러리</a>
+    <a href="#video" data-ko="시연 영상" data-en="Demo Video">시연 영상</a>
+    <a href="#map" data-ko="오시는 길" data-en="Directions">오시는 길</a>
   </div>
-  <button class="dark-btn" onclick="toggleDark()">🌙</button>
+  <div class="nav-btns">
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+    <button class="dark-btn" onclick="toggleDark()">🌙</button>
+  </div>
 </nav>
 
 <section id="about">
-  <h2>거합도란?</h2>
-  <p>
+  <h2 data-ko="거합도란?" data-en="What is Iaido?">거합도란?</h2>
+  <p data-ko="거합도는 검을 뽑는 순간부터 납도까지의 흐름 속에서 정신과 육체를 함께 수련하는 전통 무도입니다."
+     data-en="Iaido is a traditional martial art that trains both mind and body through the flowing movement from drawing the sword to returning it to the scabbard.">
     거합도는 검을 뽑는 순간부터 납도까지의 흐름 속에서
     정신과 육체를 함께 수련하는 전통 무도입니다.
   </p>
 </section>
 
 <section id="gallery">
-  <h2>수련 갤러리</h2>
+  <h2 data-ko="수련 갤러리" data-en="Training Gallery">수련 갤러리</h2>
   <div class="gallery">
     <img src="Zanchin_01.jpeg">
     <img src="iaido_02.jpeg">
@@ -211,25 +274,38 @@
 </section>
 
 <section id="video">
-  <h2>시연 영상</h2>
+  <h2 data-ko="시연 영상" data-en="Demo Video">시연 영상</h2>
   <video controls width="100%" height="400px">
-    <source src="화면 기록 2026-01-11 오후 2.44.06.mp4" type="video/mp4">
+    <source src="화면 기록 2026-01-11 오후 2.44.06.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 </section>
 
 <section id="map" class="map">
-  <h2>오시는 길</h2>
-  <p>부산 북구 상리로18번길 12</p>
-  <a href="https://map.kakao.com/link/search/%EB%B6%80%EC%82%B0%20%EB%B6%81%EA%B5%AC%20%EC%83%81%EB%A6%AC%EB%A1%9C18%EB%B2%88%EA%B8%B8%2012" target="_blank">카카오맵 열기</a>
-  <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EB%B6%81%EA%B5%AC%20%EC%83%81%EB%A6%AC%EB%A1%9C18%EB%B2%88%EA%B8%B8%2012" target="_blank">네이버지도 열기</a>
+  <h2 data-ko="오시는 길" data-en="Directions">오시는 길</h2>
+  <p data-ko="부산 북구 상리로18번길 12" data-en="12 Sangri-ro 18beon-gil, Buk-gu, Busan">부산 북구 상리로18번길 12</p>
+  <a href="https://map.kakao.com/link/search/%EB%B6%80%EC%82%B0%20%EB%B6%81%EA%B5%AC%20%EC%83%81%EB%A6%AC%EB%A1%9C18%EB%B2%88%EA%B8%B8%2012" target="_blank"
+     data-ko="카카오맵 열기" data-en="Open KakaoMap">카카오맵 열기</a>
+  <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EB%B6%81%EA%B5%AC%20%EC%83%81%EB%A6%AC%EB%A1%9C18%EB%B2%88%EA%B8%B8%2012" target="_blank"
+     data-ko="네이버지도 열기" data-en="Open NaverMap">네이버지도 열기</a>
+
+  <div class="code-copy-box">
+    <button class="code-copy-btn" onclick="copyMapCode()"
+            data-ko="📋 코드 복사" data-en="📋 Copy Code">📋 코드 복사</button>
+    <span class="code-copy-msg" id="copyMsg"></span>
+    <pre id="mapCodeBlock"><code>&lt;!-- 오시는 길 섹션 --&gt;
+&lt;p&gt;부산 북구 상리로18번길 12&lt;/p&gt;
+&lt;a href="https://map.kakao.com/link/search/%EB%B6%80%EC%82%B0%20%EB%B6%81%EA%B5%AC%20%EC%83%81%EB%A6%AC%EB%A1%9C18%EB%B2%88%EA%B8%B8%2012" target="_blank"&gt;카카오맵 열기&lt;/a&gt;
+&lt;a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EB%B6%81%EA%B5%AC%20%EC%83%81%EB%A6%AC%EB%A1%9C18%EB%B2%88%EA%B8%B8%2012" target="_blank"&gt;네이버지도 열기&lt;/a&gt;</code></pre>
+  </div>
 </section>
 
 <footer>
-  © 2026 ○○ 거합도 수련관
+  <span data-ko="© 2026 ○○ 거합도 수련관" data-en="© 2026 ○○ Iaido Dojo">© 2026 ○○ 거합도 수련관</span>
 </footer>
 
 <script>
+  // Dark mode
   function toggleDark() {
     document.body.classList.toggle("dark");
     localStorage.setItem("dark", document.body.classList.contains("dark"));
@@ -239,8 +315,38 @@
     document.body.classList.add("dark");
   }
 
+  // Menu
   function toggleMenu() {
     document.getElementById("menu").classList.toggle("show");
+  }
+
+  // Language toggle
+  let currentLang = localStorage.getItem("lang") || "ko";
+
+  function applyLang(lang) {
+    document.querySelectorAll("[data-ko]").forEach(el => {
+      el.textContent = el.getAttribute("data-" + lang);
+    });
+    document.getElementById("langBtn").textContent = lang === "ko" ? "EN" : "한글";
+    document.documentElement.lang = lang;
+  }
+
+  function toggleLang() {
+    currentLang = currentLang === "ko" ? "en" : "ko";
+    localStorage.setItem("lang", currentLang);
+    applyLang(currentLang);
+  }
+
+  applyLang(currentLang);
+
+  // Code copy
+  function copyMapCode() {
+    const code = document.getElementById("mapCodeBlock").innerText;
+    navigator.clipboard.writeText(code).then(() => {
+      const msg = document.getElementById("copyMsg");
+      msg.textContent = currentLang === "ko" ? "복사되었습니다!" : "Copied!";
+      setTimeout(() => { msg.textContent = ""; }, 2000);
+    });
   }
 </script>
 
