@@ -146,53 +146,6 @@
     }
 
     /* MAP */
-    .code-copy-box {
-      margin-top: 20px;
-      background: #f4f4f4;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 16px;
-      text-align: left;
-    }
-
-    .dark .code-copy-box {
-      background: #2a2a2a;
-      border-color: #444;
-    }
-
-    .code-copy-box pre {
-      margin: 10px 0 0;
-      font-size: 13px;
-      white-space: pre-wrap;
-      word-break: break-all;
-      color: #333;
-    }
-
-    .dark .code-copy-box pre {
-      color: #ccc;
-    }
-
-    .code-copy-btn {
-      background: #007bff;
-      color: white;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .code-copy-btn:hover {
-      background: #0056cc;
-    }
-
-    .code-copy-msg {
-      margin-left: 10px;
-      color: #28a745;
-      font-size: 14px;
-      font-weight: bold;
-    }
-
     .map a {
       display: inline-block;
       margin-top: 10px;
@@ -289,15 +242,6 @@
   <a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EB%B6%81%EA%B5%AC%20%EC%83%81%EB%A6%AC%EB%A1%9C18%EB%B2%88%EA%B8%B8%2012" target="_blank"
      data-ko="네이버지도 열기" data-en="Open NaverMap">네이버지도 열기</a>
 
-  <div class="code-copy-box">
-    <button class="code-copy-btn" onclick="copyMapCode()"
-            data-ko="📋 코드 복사" data-en="📋 Copy Code">📋 코드 복사</button>
-    <span class="code-copy-msg" id="copyMsg"></span>
-    <pre id="mapCodeBlock"><code>&lt;!-- 오시는 길 섹션 --&gt;
-&lt;p&gt;부산 북구 상리로18번길 12&lt;/p&gt;
-&lt;a href="https://map.kakao.com/link/search/%EB%B6%80%EC%82%B0%20%EB%B6%81%EA%B5%AC%20%EC%83%81%EB%A6%AC%EB%A1%9C18%EB%B2%88%EA%B8%B8%2012" target="_blank"&gt;카카오맵 열기&lt;/a&gt;
-&lt;a href="https://map.naver.com/v5/search/%EB%B6%80%EC%82%B0%20%EB%B6%81%EA%B5%AC%20%EC%83%81%EB%A6%AC%EB%A1%9C18%EB%B2%88%EA%B8%B8%2012" target="_blank"&gt;네이버지도 열기&lt;/a&gt;</code></pre>
-  </div>
 </section>
 
 <footer>
@@ -339,15 +283,6 @@
 
   applyLang(currentLang);
 
-  // Code copy
-  function copyMapCode() {
-    const code = document.getElementById("mapCodeBlock").innerText;
-    navigator.clipboard.writeText(code).then(() => {
-      const msg = document.getElementById("copyMsg");
-      msg.textContent = currentLang === "ko" ? "복사되었습니다!" : "Copied!";
-      setTimeout(() => { msg.textContent = ""; }, 2000);
-    });
-  }
 </script>
 
 </body>
